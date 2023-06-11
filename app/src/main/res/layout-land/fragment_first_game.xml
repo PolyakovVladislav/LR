@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/bg_main">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vert"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <com.lucky.rush.ui.view.FirstGameScoreView
+        android:id="@+id/score_view_total"
+        android:layout_width="0dp"
+        app:layout_constraintVertical_weight="2.2"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/text_view_bet"
+        app:layout_constraintDimensionRatio="1.056"
+        app:layout_constraintEnd_toStartOf="@id/score_view_win"
+        app:layout_constraintStart_toStartOf="@id/guideline_vert"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.lucky.rush.ui.view.FirstGameScoreView
+        android:id="@+id/score_view_win"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/score_view_total"
+        app:layout_constraintDimensionRatio="1.056"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/score_view_total"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="30dp"
+        android:paddingHorizontal="45dp"
+        android:paddingBottom="25dp"
+        android:paddingTop="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_vert"
+        android:layout_marginBottom="-20dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_1"
+        android:background="@drawable/illustrations_slots_bg_game_1"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.lucky.rush.ui.view.SlotView
+            android:id="@+id/slot_view_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.lucky.rush.ui.view.SlotView
+            android:id="@+id/slot_view_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.lucky.rush.ui.view.SlotView
+            android:id="@+id/slot_view_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.lucky.rush.ui.view.SlotView
+            android:id="@+id/slot_view_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.07" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_view_decrease"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_bet"
+        app:layout_constraintEnd_toStartOf="@id/text_view_bet"
+        app:layout_constraintStart_toStartOf="@id/guideline_vert"
+        app:layout_constraintTop_toTopOf="@+id/text_view_bet"
+        app:srcCompat="@drawable/ic_arrow_down" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_bet"
+        android:layout_width="150dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/illustration_score_game_first"
+        android:gravity="center"
+        android:lines="1"
+        app:layout_constraintVertical_weight="0.7"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.Text.Primary.Bold"
+        app:autoSizeMaxTextSize="30sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@id/button_play"
+        app:layout_constraintEnd_toStartOf="@id/image_view_increase"
+        app:layout_constraintStart_toEndOf="@id/image_view_decrease"
+        app:layout_constraintTop_toBottomOf="@id/score_view_total"
+        tools:text="932199" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_view_increase"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_bet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_view_bet"
+        app:layout_constraintTop_toTopOf="@+id/text_view_bet"
+        app:srcCompat="@drawable/ic_arrow_up" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_play"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="0.9"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/illustration_button_play_game_1"
+        android:text="@string/play"
+        android:textAppearance="@style/TextAppearance.Button.Primary.Bold"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_vert"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_bet" />
+</androidx.constraintlayout.widget.ConstraintLayout>

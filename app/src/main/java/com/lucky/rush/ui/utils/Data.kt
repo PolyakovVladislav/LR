@@ -15,19 +15,11 @@ class Data(context: Context) {
 
     var vibratingVolume by PreferenceFieldDelegate.Int("vibratingVolume", 50)
 
-    var balance by PreferenceFieldDelegate.Long("balance", 5000L)
+    var total by PreferenceFieldDelegate.Long("total", 5000L)
 
-    var lastBetGame1 by PreferenceFieldDelegate.Long("lastBetGame1", 500L)
+    var betGameFirst by PreferenceFieldDelegate.Long("betGameFirst", 500L)
 
-    var lastBetGame2 by PreferenceFieldDelegate.Long("lastBetGame2", 500L)
-
-    var lastBetGame3 by PreferenceFieldDelegate.Long("lastBetGame3", 500L)
-
-    var lastWinGame1 by PreferenceFieldDelegate.Long("lastWinGame1", 0L)
-
-    var lastWinGame2 by PreferenceFieldDelegate.Long("lastWinGame2", 0L)
-
-    var lastWinGame3 by PreferenceFieldDelegate.Long("lastWinGame3", 0L)
+    var wingGameFirst by PreferenceFieldDelegate.Long("wingGameFirst", 0L)
 
     private sealed class PreferenceFieldDelegate<T>(protected val key: kotlin.String) :
         ReadWriteProperty<Data, T> {

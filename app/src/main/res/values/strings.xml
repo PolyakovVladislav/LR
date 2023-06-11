@@ -14,4 +14,7 @@
     <string name="game_1">Game 1</string>
     <string name="game_2">Game 2</string>
     <string name="bonus_game">Bonus Game</string>
+    <string name="win">WIN</string>
+    <string name="total">Total</string>
+    <string name="reset_score">Reset score</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.fairyfo.frenzy.ui.view
+package com.lucky.rush.ui.view
 
 import android.animation.LayoutTransition
 import android.content.Context
@@ -19,6 +19,7 @@ class SlotView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyle) {
 
     private var currentList = listOf<Slot>()
+    private var itemsInColumn = 0
 
     init {
         layoutTransition = LayoutTransition()
@@ -26,16 +27,17 @@ class SlotView @JvmOverloads constructor(
         viewTreeObserver.addOnGlobalLayoutListener(
             object : OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    update(currentList)
+                    update(currentList, itemsInColumn)
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             }
         )
     }
 
-    fun update(list: List<Slot>) {
+    fun update(list: List<Slot>, itemsInColumn: Int) {
         if (list.isEmpty()) return
         currentList = list
+        this.itemsInColumn = itemsInColumn
         val viewsForRemoval = mutableListOf<AppCompatImageView>()
         children.forEach { view ->
             if (list.any { slot -> slot.id == view.tag }.not()) {
@@ -49,9 +51,9 @@ class SlotView @JvmOverloads constructor(
                 (view as AppCompatImageView).setImageResource(slot.drawableRes)
                 view.layoutParams = LayoutParams(
                     LayoutParams.MATCH_PARENT,
-                    height / 3,
+                    height / itemsInColumn,
                 )
-                view.y = height * slot.relativePosition - height / 6
+                view.y = height * slot.relativePosition - height / (itemsInColumn * 2)
             } else {
                 val imageView = if (viewsForRemoval.isEmpty()) {
                     val internalImageView = AppCompatImageView(context)
@@ -66,9 +68,9 @@ class SlotView @JvmOverloads constructor(
                     LayoutParams.MATCH_PARENT,
                     height / 3,
                 )
-                imageView.setPadding(12.dpToPx)
+                imageView.setPadding(6.dpToPx)
                 imageView.x = 0f
-                imageView.y = height * slot.relativePosition - height / 6
+                imageView.y = height * slot.relativePosition - height / (itemsInColumn * 2)
                 imageView.setImageResource(slot.drawableRes)
                 imageView.tag = slot.id
             }

@@ -60,5 +60,24 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_gamesFragment_to_firstGameFragment"
+            app:destination="@id/firstGameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstGameFragment"
+        android:name="com.lucky.rush.ui.fragment.firstGame.FirstGameFragment"
+        android:label="FirstGameFragment"
+        tools:layout="@layout/fragment_first_game">
+        <action
+            android:id="@+id/action_firstGameFragment_to_gamesFragment"
+            app:destination="@id/gamesFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/gamesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

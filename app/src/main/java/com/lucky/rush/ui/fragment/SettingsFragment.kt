@@ -25,7 +25,7 @@ class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
 
             textViewMusic.setTextGradient(R.color.red, R.color.yellow)
             textViewVibration.setTextGradient(R.color.red, R.color.yellow)
-
+            buttonResetScore.setTextGradient(R.color.red, R.color.yellow)
 
             progressBarMusic.progress = data.musicVolume
             progressBarVibration.progress = data.vibratingVolume
@@ -36,6 +36,10 @@ class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
 
             progressBarVibration.setOnProgressListener {
                 data.vibratingVolume = it
+            }
+
+            buttonResetScore.setOnClickListener {
+                data.total = 5000
             }
         }
         addOnBackPressedCallback {

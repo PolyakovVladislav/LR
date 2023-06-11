@@ -34,7 +34,9 @@ class GamesFragment : ViewBindingFragment<FragmentGamesBinding>(
                 )
             }
             buttonPlay1.setOnClickListener {
-
+                navController.navigateSafe(
+                    GamesFragmentDirections.actionGamesFragmentToFirstGameFragment()
+                )
             }
             buttonPlay2.setOnClickListener {
             }

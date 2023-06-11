@@ -1,5 +1,7 @@
 package com.lucky.rush.ui.extensions
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
@@ -24,7 +26,7 @@ internal inline fun Fragment.addOnBackPressedCallback(
     )
 }
 
-fun Fragment.playWinSound() {
+fun Fragment.playWin() {
     try {
         val assetManager = requireActivity().assets
         val mediaPlayer = MediaPlayer()
@@ -42,7 +44,7 @@ fun Fragment.playWinSound() {
 }
 
 @Suppress("DEPRECATION")
-fun Fragment.vibrate(duration: Long = 150L) {
+fun Fragment.vibr(duration: Long = 150L) {
     try {
         val v = ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
         if (v?.hasVibrator() == true) {
@@ -60,4 +62,14 @@ fun Fragment.vibrate(duration: Long = 150L) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+@SuppressLint("SourceLockedOrientationActivity")
+fun Fragment.setOrientationPortrait() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+}
+
+@SuppressLint("SourceLockedOrientationActivity")
+fun Fragment.setOrientationFull() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
 }
