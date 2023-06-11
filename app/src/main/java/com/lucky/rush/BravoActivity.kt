@@ -1,33 +1,16 @@
 package com.lucky.rush
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Message
 import android.view.*
 import android.webkit.*
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.contains
-import com.onesignal.OneSignal
+import com.lucky.rush.ui.view.CustomProgressBar
 import io.michaelrocks.paranoid.Obfuscate
 import kotlinx.coroutines.*
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.*
 
 @Obfuscate
@@ -57,10 +40,19 @@ class BravoActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-
     private fun toMainActivity() {
         ioScope.launch {
-            delay(3000) 
+
+            withContext(Dispatchers.Main) {
+                val progressBar = findViewById<CustomProgressBar>(R.id.progress_bar)
+                progressBar.clicksEnabled = false
+                progressBar.progress = 0
+                do {
+                    delay(30)
+                    progressBar.progress = progressBar.progress + 2
+                } while (progressBar.progress < 100)
+            }
+
             uiScope.launch {
                 startActivity(Intent(this@BravoActivity, FoxtrotActivity::class.java))
                 finish()
