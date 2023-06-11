@@ -24,8 +24,11 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(
             buttonPrivacy.setTextGradient(R.color.red, R.color.yellow)
 
             val navController = findNavController()
-            buttonPlay.setOnClickListener {
 
+            buttonPlay.setOnClickListener {
+                navController.navigateSafe(
+                MainFragmentDirections.actionMainFragmentToGamesFragment()
+                )
             }
             buttonSettings.setOnClickListener {
                 navController.navigateSafe(

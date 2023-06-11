@@ -131,7 +131,7 @@
                 android:layout_height="90dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/illustration_button_play_game_1"
-                android:textAppearance="@style/TextAppearance.Primary.Bold"
+                android:textAppearance="@style/TextAppearance.Button.Primary.Bold"
                 android:text="@string/play"
                 app:backgroundTint="@null"
                 app:layout_constraintTop_toBottomOf="@id/card_view_check" />

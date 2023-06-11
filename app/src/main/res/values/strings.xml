@@ -11,4 +11,7 @@
     <string name="please_choose_sign_in_option">Please choose sign in option</string>
     <string name="sounds">Sounds</string>
     <string name="vibration">Vibration</string>
+    <string name="game_1">Game 1</string>
+    <string name="game_2">Game 2</string>
+    <string name="bonus_game">Bonus Game</string>
 </resources>

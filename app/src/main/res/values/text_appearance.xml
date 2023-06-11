@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TextAppearance.Primary.Bold" parent="">
+    <style name="TextAppearance.Button.Primary.Bold" parent="">
         <item name="android:textSize">30sp</item>
         <item name="fontFamily">@font/laila_700</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.Text.Primary.SemiBold" parent="">
+        <item name="android:textSize">35sp</item>
+        <item name="fontFamily">@font/laila_600</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>
