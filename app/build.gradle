@@ -3,6 +3,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'io.michaelrocks.paranoid'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {

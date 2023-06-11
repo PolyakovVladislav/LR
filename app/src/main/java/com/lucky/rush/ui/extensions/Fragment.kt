@@ -8,7 +8,7 @@ import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.fairyfo.frenzy.utils.SharedPrefs
+import com.lucky.rush.ui.utils.Data
 import java.io.IOException
 
 internal inline fun Fragment.addOnBackPressedCallback(
@@ -28,7 +28,7 @@ fun Fragment.playWinSound() {
     try {
         val assetManager = requireActivity().assets
         val mediaPlayer = MediaPlayer()
-        val volume = SharedPrefs.getInstance(requireActivity()).soundLevel / 100f
+        val volume = Data.getInstance(requireActivity()).musicVolume / 100f
         mediaPlayer.setVolume(volume, volume)
 
         val afd = assetManager.openFd("win.wav")
@@ -50,11 +50,11 @@ fun Fragment.vibrate(duration: Long = 150L) {
                 v.vibrate(
                     VibrationEffect.createOneShot(
                         duration,
-                        (255 * SharedPrefs.getInstance(requireActivity()).vibratingLevel / 100f).toInt(),
+                        (255 * Data.getInstance(requireActivity()).vibratingVolume / 100f).toInt(),
                     ),
                 )
             } else {
-                v.vibrate((duration * SharedPrefs.getInstance(requireActivity()).vibratingLevel / 100f).toLong())
+                v.vibrate((duration * Data.getInstance(requireActivity()).vibratingVolume / 100f).toLong())
             }
         }
     } catch (e: Exception) {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.lucky.rush.databinding.ViewCustomProgressBarBinding
+import com.lucky.rush.ui.extensions.getCallbackOnFirstGlobalLayout
 
 
 class CustomProgressBar @JvmOverloads constructor(
@@ -14,7 +15,7 @@ class CustomProgressBar @JvmOverloads constructor(
     defStyle: Int = 0,
 ) : FrameLayout(context, attrs, defStyle) {
 
-    private val binding by lazy {
+    private val vb by lazy {
         ViewCustomProgressBarBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
@@ -23,31 +24,33 @@ class CustomProgressBar @JvmOverloads constructor(
     var clicksEnabled = true
 
     init {
-        binding.root.setOnTouchListener { v, event ->
+        vb.root.setOnTouchListener { v, event ->
             if (clicksEnabled) {
-                val newProgress = ((event.x - binding.root.x) / binding.root.width * 100).toInt()
+                val newProgress = ((event.x - vb.root.x) / vb.root.width * 100).toInt()
                 progress = newProgress
             }
             clicksEnabled
         }
-        updateProgress()
+        getCallbackOnFirstGlobalLayout {
+            update()
+        }
     }
 
     var progress: Int = 0
         set(value) {
             field = value
-            updateProgress()
+            update()
             progressListener?.let { it(value) }
         }
 
-    fun setOnChangeListener(listener: (Int) -> Unit) {
+    fun setOnProgressListener(listener: (Int) -> Unit) {
         progressListener = listener
     }
 
-    private fun updateProgress() {
-        binding.imageViewProgress.layoutParams =
+    private fun update() {
+        vb.imageViewProgress.layoutParams =
             LayoutParams(
-                (progress / 100f * binding.root.width).toInt(),
+                (progress / 100f * vb.root.width).toInt(),
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
     }
