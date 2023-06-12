@@ -18,10 +18,10 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            buttonPlay.setTextGradient(R.color.red, R.color.yellow)
-            buttonSettings.setTextGradient(R.color.red, R.color.yellow)
-            buttonExit.setTextGradient(R.color.red, R.color.yellow)
-            buttonPrivacy.setTextGradient(R.color.red, R.color.yellow)
+            buttonPlay.setTextGradient(R.color.orange, R.color.yellow_2)
+            buttonSettings.setTextGradient(R.color.orange, R.color.yellow_2)
+            buttonExit.setTextGradient(R.color.orange, R.color.yellow_2)
+            buttonPrivacy.setTextGradient(R.color.orange, R.color.yellow_2)
 
             val navController = findNavController()
 

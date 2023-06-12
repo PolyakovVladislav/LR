@@ -20,8 +20,8 @@ class FirstGameScoreView @JvmOverloads constructor(
     }
 
     init {
-        vb.textViewTitle.setTextGradient(R.color.red, R.color.yellow)
-        vb.textViewScore.setTextGradient(R.color.red, R.color.yellow)
+        vb.textViewTitle.setTextGradient(R.color.orange, R.color.yellow_2)
+        vb.textViewScore.setTextGradient(R.color.orange, R.color.yellow_2)
     }
 
     var score: Long = 0

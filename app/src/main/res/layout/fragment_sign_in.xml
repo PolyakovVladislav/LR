@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:stroke_ColorType="gradient_linear"
         app:stroke_Gradient_Color0="@color/red"
-        app:stroke_Gradient_ColorEnd="@color/yellow"
+        app:stroke_Gradient_ColorEnd="@color/yellow_1"
         app:stroke_Width="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,7 +94,7 @@
                 app:layout_constraintTop_toBottomOf="@id/card_view_email"
                 app:stroke_ColorType="gradient_linear"
                 app:stroke_Gradient_Color0="@color/red"
-                app:stroke_Gradient_Color1="@color/yellow"
+                app:stroke_Gradient_Color1="@color/yellow_1"
                 app:stroke_Width="4dp">
 
                 <androidx.appcompat.widget.AppCompatImageView

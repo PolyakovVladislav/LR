@@ -65,6 +65,11 @@
             app:destination="@id/firstGameFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_gamesFragment_to_secondGameFragment"
+            app:destination="@id/secondGameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/firstGameFragment"
@@ -73,6 +78,20 @@
         tools:layout="@layout/fragment_first_game">
         <action
             android:id="@+id/action_firstGameFragment_to_gamesFragment"
+            app:destination="@id/gamesFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/gamesFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondGameFragment"
+        tools:layout="@layout/fragment_second_game"
+        android:name="com.lucky.rush.ui.fragment.secondGame.SecondGameFragment"
+        android:label="SecondGameFragment" >
+        <action
+            android:id="@+id/action_secondGameFragment_to_gamesFragment"
             app:destination="@id/gamesFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"

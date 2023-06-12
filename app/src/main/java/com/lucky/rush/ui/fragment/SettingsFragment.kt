@@ -23,9 +23,9 @@ class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
 
-            textViewMusic.setTextGradient(R.color.red, R.color.yellow)
-            textViewVibration.setTextGradient(R.color.red, R.color.yellow)
-            buttonResetScore.setTextGradient(R.color.red, R.color.yellow)
+            textViewMusic.setTextGradient(R.color.orange, R.color.yellow_2)
+            textViewVibration.setTextGradient(R.color.orange, R.color.yellow_2)
+            buttonResetScore.setTextGradient(R.color.orange, R.color.yellow_2)
 
             progressBarMusic.progress = data.musicVolume
             progressBarVibration.progress = data.vibratingVolume

@@ -19,7 +19,7 @@ class SignInFragment : ViewBindingFragment<FragmentSignInBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            buttonPlay.setTextGradient(R.color.red, R.color.yellow)
+            buttonPlay.setTextGradient(R.color.orange, R.color.yellow_2)
 
             cardViewCheck.setOnClickListener {
                 imageViewCheck.isVisible = imageViewCheck.isVisible.not()

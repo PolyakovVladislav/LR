@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.*
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.contains
 import com.lucky.rush.ui.view.CustomProgressBar
 import io.michaelrocks.paranoid.Obfuscate
 import kotlinx.coroutines.*

@@ -17,9 +17,9 @@ class GamesFragment : ViewBindingFragment<FragmentGamesBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            buttonPlay1.setTextGradient(R.color.red, R.color.yellow)
-            buttonPlay2.setTextGradient(R.color.red, R.color.yellow)
-            buttonBonusGame.setTextGradient(R.color.red, R.color.yellow)
+            buttonPlay1.setTextGradient(R.color.orange, R.color.yellow_2)
+            buttonPlay2.setTextGradient(R.color.orange, R.color.yellow_2)
+            buttonBonusGame.setTextGradient(R.color.orange, R.color.yellow_2)
 
             val navController = findNavController()
 
@@ -39,6 +39,9 @@ class GamesFragment : ViewBindingFragment<FragmentGamesBinding>(
                 )
             }
             buttonPlay2.setOnClickListener {
+                navController.navigateSafe(
+                    GamesFragmentDirections.actionGamesFragmentToSecondGameFragment()
+                )
             }
             buttonBonusGame.setOnClickListener {
             }
