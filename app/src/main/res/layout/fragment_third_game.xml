@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/bg_main">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vert_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vert_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_hor_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_hor_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.67" />
+
+    <FrameLayout
+        android:id="@+id/container_slot_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_slot_game_3"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@id/container_slot_3"
+        app:layout_constraintDimensionRatio="0.70204081632653061224489795918367"
+        app:layout_constraintEnd_toStartOf="@id/container_slot_2"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="@id/guideline_vert_1"
+        app:layout_constraintTop_toTopOf="@id/guideline_hor_1"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_weight="1">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_view_slot_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_secret" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/container_slot_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_slot_game_3"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@id/container_slot_4"
+        app:layout_constraintDimensionRatio="0.70204081632653061224489795918367"
+        app:layout_constraintEnd_toEndOf="@id/guideline_vert_2"
+        app:layout_constraintStart_toEndOf="@id/container_slot_1"
+        app:layout_constraintTop_toTopOf="@id/guideline_hor_1">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_view_slot_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_secret"
+            tools:srcCompat="@drawable/ic_pika" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/container_slot_3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_slot_game_3"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_hor_2"
+        app:layout_constraintDimensionRatio="0.70204081632653061224489795918367"
+        app:layout_constraintEnd_toStartOf="@id/container_slot_4"
+        app:layout_constraintStart_toStartOf="@+id/guideline_vert_1"
+        app:layout_constraintTop_toBottomOf="@id/container_slot_1"
+        app:layout_constraintVertical_weight="1">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_view_slot_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_secret"
+            tools:srcCompat="@drawable/ic_bubna" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/container_slot_4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_slot_game_3"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_hor_2"
+        app:layout_constraintDimensionRatio="0.70204081632653061224489795918367"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vert_2"
+        app:layout_constraintStart_toEndOf="@id/container_slot_3"
+        app:layout_constraintTop_toBottomOf="@id/container_slot_2">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_view_slot_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_secret"
+            tools:srcCompat="@drawable/ic_trefa" />
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_view_decrease"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_bet"
+        app:layout_constraintEnd_toStartOf="@id/text_view_bet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_view_bet"
+        app:srcCompat="@drawable/ic_arrow_down" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_bet"
+        android:layout_width="150dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/illustration_score_game_first"
+        android:gravity="center"
+        android:lines="1"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.Text.Primary.Bold"
+        app:autoSizeMaxTextSize="30sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@id/button_play"
+        app:layout_constraintEnd_toStartOf="@id/image_view_increase"
+        app:layout_constraintStart_toEndOf="@id/image_view_decrease"
+        app:layout_constraintTop_toBottomOf="@id/guideline_1"
+        app:layout_constraintVertical_weight="3"
+        tools:text="932199" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_view_increase"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_bet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_view_bet"
+        app:layout_constraintTop_toTopOf="@+id/text_view_bet"
+        app:srcCompat="@drawable/ic_arrow_up" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_play"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/illustration_button_play_game_1"
+        android:text="@string/play"
+        android:textAppearance="@style/TextAppearance.Button.Primary.Bold"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_bet"
+        app:layout_constraintVertical_weight="4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

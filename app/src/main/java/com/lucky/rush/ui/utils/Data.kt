@@ -19,11 +19,15 @@ class Data(context: Context) {
 
     var betGameFirst by PreferenceFieldDelegate.Long("betGameFirst", 500L)
 
-    var betGameSecond by PreferenceFieldDelegate.Long("betGameFirst", 500L)
+    var betGameSecond by PreferenceFieldDelegate.Long("betGameSecond", 500L)
+
+    var betGameThird by PreferenceFieldDelegate.Long("betGameThird", 500L)
 
     var wingGameFirst by PreferenceFieldDelegate.Long("wingGameFirst", 0L)
 
     var wingGameSecond by PreferenceFieldDelegate.Long("wingGameSecond", 0L)
+
+    var wingGameThird by PreferenceFieldDelegate.Long("wingGameThird", 0L)
 
     private sealed class PreferenceFieldDelegate<T>(protected val key: kotlin.String) :
         ReadWriteProperty<Data, T> {

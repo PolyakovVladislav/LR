@@ -12,6 +12,10 @@ fun View.alphaAnimator(duration: Long = 800): ViewPropertyAnimator {
     return animate().alpha(1.0f).setDuration(duration)
 }
 
+fun View.revertAlphaAnimator(duration: Long = 800): ViewPropertyAnimator {
+    return animate().alpha(0f).setDuration(duration)
+}
+
 fun View.getCallbackOnFirstGlobalLayout(action: () -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(
         object : ViewTreeObserver.OnGlobalLayoutListener {

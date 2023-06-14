@@ -44,6 +44,9 @@ class GamesFragment : ViewBindingFragment<FragmentGamesBinding>(
                 )
             }
             buttonBonusGame.setOnClickListener {
+                navController.navigateSafe(
+                    GamesFragmentDirections.actionGamesFragmentToThirdGameFragment()
+                )
             }
         }
     }
