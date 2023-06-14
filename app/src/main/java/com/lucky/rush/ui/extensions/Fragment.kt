@@ -26,14 +26,14 @@ internal inline fun Fragment.addOnBackPressedCallback(
     )
 }
 
-fun Fragment.playWin() {
+fun Fragment.playWinSound() {
     try {
         val assetManager = requireActivity().assets
         val mediaPlayer = MediaPlayer()
         val volume = Data.getInstance(requireActivity()).musicVolume / 100f
         mediaPlayer.setVolume(volume, volume)
 
-        val afd = assetManager.openFd("win.wav")
+        val afd = assetManager.openFd("win_sound.wav")
         mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
         mediaPlayer.isLooping = false
         mediaPlayer.prepare()

@@ -9,7 +9,7 @@ import com.lucky.rush.databinding.FragmentFirstGameBinding
 import com.lucky.rush.ui.core.ViewBindingFragment
 import com.lucky.rush.ui.extensions.addOnBackPressedCallback
 import com.lucky.rush.ui.extensions.navigateSafe
-import com.lucky.rush.ui.extensions.playWin
+import com.lucky.rush.ui.extensions.playWinSound
 import com.lucky.rush.ui.extensions.setOrientationFull
 import com.lucky.rush.ui.extensions.setOrientationPortrait
 import com.lucky.rush.ui.extensions.setTextGradient
@@ -70,7 +70,7 @@ class FirstGameFragment : ViewBindingFragment<FragmentFirstGameBinding>(
 
             vm.win.observe(viewLifecycleOwner) { win ->
                 if (data.wingGameFirst != win) {
-                    playWin()
+                    playWinSound()
                     vibr()
                 }
                 data.wingGameFirst = win
