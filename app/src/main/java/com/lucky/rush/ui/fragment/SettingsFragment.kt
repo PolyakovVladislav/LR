@@ -2,6 +2,7 @@ package com.lucky.rush.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.lucky.rush.R
 import com.lucky.rush.databinding.FragmentSettingsBinding
@@ -40,6 +41,11 @@ class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
 
             buttonResetScore.setOnClickListener {
                 data.total = 5000
+                Toast.makeText(
+                    requireContext(),
+                    R.string.score_resettled,
+                    Toast.LENGTH_SHORT,
+                ).show()
             }
         }
         addOnBackPressedCallback {

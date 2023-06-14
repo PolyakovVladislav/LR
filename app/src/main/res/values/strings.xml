@@ -18,4 +18,5 @@
     <string name="total">Total</string>
     <string name="reset_score">Reset score</string>
     <string name="claim">Claim</string>
+    <string name="score_resettled">Score resettled</string>
 </resources>
