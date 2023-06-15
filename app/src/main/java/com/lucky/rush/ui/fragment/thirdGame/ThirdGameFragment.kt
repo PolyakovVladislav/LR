@@ -8,19 +8,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.lucky.rush.R
 import com.lucky.rush.databinding.FragmentThirdGameBinding
-import com.lucky.rush.ui.core.ViewBindingFragment
-import com.lucky.rush.ui.extensions.addOnBackPressedCallback
-import com.lucky.rush.ui.extensions.alphaAnimator
-import com.lucky.rush.ui.extensions.navigateSafe
-import com.lucky.rush.ui.extensions.revertAlphaAnimator
-import com.lucky.rush.ui.extensions.setTextGradient
-import com.lucky.rush.ui.extensions.vibr
+import com.lucky.rush.ui.core.VbFragment
+import com.lucky.rush.ui.extensions.doOnBackPressed
+import com.lucky.rush.ui.extensions.alpha
+import com.lucky.rush.ui.extensions.safeNavigate
+import com.lucky.rush.ui.extensions.revertAlpha
+import com.lucky.rush.ui.extensions.applyGradientToText
+import com.lucky.rush.ui.extensions.vibrator
 import com.lucky.rush.ui.utils.Data
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
+class ThirdGameFragment : VbFragment<FragmentThirdGameBinding>(
     FragmentThirdGameBinding::inflate,
 ) {
 
@@ -30,15 +30,15 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addOnBackPressedCallback {
-            findNavController().navigateSafe(
+        doOnBackPressed {
+            findNavController().safeNavigate(
                 ThirdGameFragmentDirections.actionThirdGameFragmentToGamesFragment()
             )
         }
 
-        with(binding) {
-            textViewBet.setTextGradient(R.color.orange, R.color.yellow_2)
-            buttonPlay.setTextGradient(R.color.orange, R.color.yellow_2)
+        with(vb) {
+            textViewBet.applyGradientToText(R.color.orange, R.color.yellow_2)
+            buttonPlay.applyGradientToText(R.color.orange, R.color.yellow_2)
 
             textViewBet.text = data.betGameThird.toString()
 
@@ -76,7 +76,7 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
 
             vm.win.observe(viewLifecycleOwner) { win ->
                 if (data.wingGameThird != win) {
-                    vibr()
+                    vibrator()
                 }
                 data.wingGameThird = win
             }
@@ -87,10 +87,10 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
                         appeared && animateAppearance -> {
                             if (drawableId != ThirdGameViewModel.empty) {
                                 imageViewSlot1.setImageResource(drawableId)
-                                imageViewSlot1.alphaAnimator()
+                                imageViewSlot1.alpha()
                             } else {
                                 imageViewSlot1.setImageDrawable(null)
-                                vibr(500)
+                                vibrator(500)
                             }
                         }
 
@@ -114,10 +114,10 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
                         appeared && animateAppearance -> {
                             if (drawableId != ThirdGameViewModel.empty) {
                                 imageViewSlot2.setImageResource(drawableId)
-                                imageViewSlot2.alphaAnimator()
+                                imageViewSlot2.alpha()
                             } else {
                                 imageViewSlot2.setImageDrawable(null)
-                                vibr(500)
+                                vibrator(500)
                             }
                         }
 
@@ -139,10 +139,10 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
                         appeared && animateAppearance -> {
                             if (drawableId != ThirdGameViewModel.empty) {
                                 imageViewSlot3.setImageResource(drawableId)
-                                imageViewSlot3.alphaAnimator()
+                                imageViewSlot3.alpha()
                             } else {
                                 imageViewSlot3.setImageDrawable(null)
-                                vibr(500)
+                                vibrator(500)
                             }
                         }
 
@@ -164,10 +164,10 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
                         appeared && animateAppearance -> {
                             if (drawableId != ThirdGameViewModel.empty) {
                                 imageViewSlot4.setImageResource(drawableId)
-                                imageViewSlot4.alphaAnimator()
+                                imageViewSlot4.alpha()
                             } else {
                                 imageViewSlot4.setImageDrawable(null)
-                                vibr(500)
+                                vibrator(500)
                             }
                         }
 
@@ -192,19 +192,19 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
                     when (state) {
                         ThirdGameViewModel.GameState.Finishing -> {
                             delay(2000)
-                            imageViewSlot1.revertAlphaAnimator(200)
-                            imageViewSlot2.revertAlphaAnimator(200)
-                            imageViewSlot3.revertAlphaAnimator(200)
-                            imageViewSlot4.revertAlphaAnimator(200)
+                            imageViewSlot1.revertAlpha(200)
+                            imageViewSlot2.revertAlpha(200)
+                            imageViewSlot3.revertAlpha(200)
+                            imageViewSlot4.revertAlpha(200)
                             delay(200)
                             imageViewSlot1.setImageResource(R.drawable.ic_secret)
                             imageViewSlot2.setImageResource(R.drawable.ic_secret)
                             imageViewSlot3.setImageResource(R.drawable.ic_secret)
                             imageViewSlot4.setImageResource(R.drawable.ic_secret)
-                            imageViewSlot1.alphaAnimator(200)
-                            imageViewSlot2.alphaAnimator(200)
-                            imageViewSlot3.alphaAnimator(200)
-                            imageViewSlot4.alphaAnimator(200)
+                            imageViewSlot1.alpha(200)
+                            imageViewSlot2.alpha(200)
+                            imageViewSlot3.alpha(200)
+                            imageViewSlot4.alpha(200)
                         }
                         ThirdGameViewModel.GameState.Idle -> {
                             containerSlot1.isVisible = false
@@ -217,18 +217,18 @@ class ThirdGameFragment : ViewBindingFragment<FragmentThirdGameBinding>(
                             if (imageViewSlot1.alpha == 1f && imageViewSlot1.isVisible) {
                                 return@launch
                             }
-                            imageViewSlot1.alphaAnimator(200)
-                            imageViewSlot2.alphaAnimator(200)
-                            imageViewSlot3.alphaAnimator(200)
-                            imageViewSlot4.alphaAnimator(200)
+                            imageViewSlot1.alpha(200)
+                            imageViewSlot2.alpha(200)
+                            imageViewSlot3.alpha(200)
+                            imageViewSlot4.alpha(200)
                         }
                         else -> {
                             buttonPlay.setText(R.string.claim)
                             if (containerSlot1.isVisible.not()) {
-                                containerSlot1.alphaAnimator(300)
-                                containerSlot2.alphaAnimator(300)
-                                containerSlot3.alphaAnimator(300)
-                                containerSlot4.alphaAnimator(300)
+                                containerSlot1.alpha(300)
+                                containerSlot2.alpha(300)
+                                containerSlot3.alpha(300)
+                                containerSlot4.alpha(300)
                             }
                         }
                     }

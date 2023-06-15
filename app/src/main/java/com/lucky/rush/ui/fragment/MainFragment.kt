@@ -7,40 +7,41 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.lucky.rush.R
 import com.lucky.rush.databinding.FragmentMainBinding
-import com.lucky.rush.ui.core.ViewBindingFragment
-import com.lucky.rush.ui.extensions.navigateSafe
-import com.lucky.rush.ui.extensions.setTextGradient
+import com.lucky.rush.ui.core.VbFragment
+import com.lucky.rush.ui.extensions.safeNavigate
+import com.lucky.rush.ui.extensions.applyGradientToText
 
-class MainFragment : ViewBindingFragment<FragmentMainBinding>(
+class MainFragment : VbFragment<FragmentMainBinding>(
     FragmentMainBinding::inflate,
 ) {
 
+    val contoller by lazy { findNavController() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            buttonPlay.setTextGradient(R.color.orange, R.color.yellow_2)
-            buttonSettings.setTextGradient(R.color.orange, R.color.yellow_2)
-            buttonExit.setTextGradient(R.color.orange, R.color.yellow_2)
-            buttonPrivacy.setTextGradient(R.color.orange, R.color.yellow_2)
+        with(vb) {
+            buttonPlay.applyGradientToText(R.color.orange, R.color.yellow_2)
+            buttonSettings.applyGradientToText(R.color.orange, R.color.yellow_2)
+            buttonExit.applyGradientToText(R.color.orange, R.color.yellow_2)
+            buttonPrivacy.applyGradientToText(R.color.orange, R.color.yellow_2)
 
-            val navController = findNavController()
+            buttonPrivacy.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"))
+                startActivity(browserIntent)
+            }
 
             buttonPlay.setOnClickListener {
-                navController.navigateSafe(
+                contoller.safeNavigate(
                 MainFragmentDirections.actionMainFragmentToGamesFragment()
                 )
             }
             buttonSettings.setOnClickListener {
-                navController.navigateSafe(
+                contoller.safeNavigate(
                     MainFragmentDirections.actionMainFragmentToSettingsFragment()
                 )
             }
             buttonExit.setOnClickListener {
                 requireActivity().finish()
-            }
-            buttonPrivacy.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"))
-                startActivity(browserIntent)
             }
         }
     }

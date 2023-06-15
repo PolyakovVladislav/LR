@@ -1,6 +1,5 @@
 package com.lucky.rush.ui.fragment.firstGame
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,9 +13,29 @@ import kotlin.math.pow
 
 class FirstGameViewModel : ViewModel() {
 
+    private var gameState = GameState.Idle
+
+    private val _slot1LD = MutableLiveData<List<Slot>>()
+    val slot1LD: LiveData<List<Slot>> = _slot1LD
+
+    private val _slot2LD = MutableLiveData<List<Slot>>()
+    val slot2LD: LiveData<List<Slot>> = _slot2LD
+
+    private val _slot3LD = MutableLiveData<List<Slot>>()
+    val slot3LD: LiveData<List<Slot>> = _slot3LD
+
+    private val _slot4LD = MutableLiveData<List<Slot>>()
+    val slot4LD: LiveData<List<Slot>> = _slot4LD
+
+    private val _total = MutableLiveData<Long>()
+    val total: LiveData<Long> = _total
+
+    private val _win = MutableLiveData<Long>()
+    val win: LiveData<Long> = _win
+
     companion object {
-        private const val FREQUENCY = 20L
-        private val values = listOf(
+        private const val RATE = 20L
+        private val drawableIdList = listOf(
             R.drawable.ic_temple,
             R.drawable.ic_tiger,
             R.drawable.ic_puma,
@@ -27,60 +46,40 @@ class FirstGameViewModel : ViewModel() {
         const val VISIBLE_AMOUNT = 4f
     }
 
-    private val _slot1LiveData = MutableLiveData<List<Slot>>()
-    val slot1LiveData: LiveData<List<Slot>> = _slot1LiveData
-
-    private val _slot2LiveData = MutableLiveData<List<Slot>>()
-    val slot2LiveData: LiveData<List<Slot>> = _slot2LiveData
-
-    private val _slot3LiveData = MutableLiveData<List<Slot>>()
-    val slot3LiveData: LiveData<List<Slot>> = _slot3LiveData
-
-    private val _slot4LiveData = MutableLiveData<List<Slot>>()
-    val slot4LiveData: LiveData<List<Slot>> = _slot4LiveData
-
-    private val _balance = MutableLiveData<Long>()
-    val total: LiveData<Long> = _balance
-
-    private val _win = MutableLiveData<Long>()
-    val win: LiveData<Long> = _win
-
-    private var gameState = GameState.Idle
-
     init {
-        generateSlots()
+        generateGame()
     }
 
     fun test(bet: Long): Long {
-        generateSlots()
-        val multiplier = getMultiplier()
-        val win = bet * multiplier
-        return win.toLong()
+        generateGame()
+        val mult = getMult()
+        val wined = bet * mult
+        return wined.toLong()
     }
 
-    fun play(bet: Long, prefs: Data) {
+    fun roll(bet: Long, data: Data) {
         viewModelScope.launch {
             if (gameState == GameState.Idle) {
-                generateSlots()
-                _balance.value = prefs.total - bet
+                generateGame()
+                _total.value = data.total - bet
 
                 gameState = GameState.Rolling
-                launch { rollSlot(_slot1LiveData) }
+                launch { spinSlot(_slot1LD) }
                 delay(300)
-                launch { rollSlot(_slot2LiveData) }
+                launch { spinSlot(_slot2LD) }
                 delay(300)
-                launch { rollSlot(_slot3LiveData) }
+                launch { spinSlot(_slot3LD) }
                 delay(300)
-                rollSlot(_slot4LiveData)
+                spinSlot(_slot4LD)
 
-                val multiplier = getMultiplier()
+                val multiplier = getMult()
                 if (multiplier == 0f) {
-                    if (prefs.total == 0L) {
-                        _balance.value = 5000L
+                    if (data.total == 0L) {
+                        _total.value = 5000L
                     }
                 } else {
+                    _total.value = (data.total + multiplier * bet + bet).toLong()
                     _win.value = (multiplier * bet).toLong()
-                    _balance.value = (prefs.total + multiplier * bet + bet).toLong()
                 }
 
                 gameState = GameState.Idle
@@ -88,185 +87,92 @@ class FirstGameViewModel : ViewModel() {
         }
     }
 
-    private fun getMultiplier(): Float {
-        val combination = listOf(
-            _slot1LiveData.value?.let { slots ->
-                slots[slots.size - 3].drawableRes
-            } ?: return 0f,
-            _slot2LiveData.value?.let { slots ->
-                slots[slots.size - 3].drawableRes
-            } ?: return 0f,
-            _slot3LiveData.value?.let { slots ->
-                slots[slots.size - 3].drawableRes
-            } ?: return 0f,
-            _slot4LiveData.value?.let { slots ->
-                slots[slots.size - 3].drawableRes
-            } ?: return 0f,
-            _slot1LiveData.value?.let { slots ->
-                slots[slots.size - 2].drawableRes
-            } ?: return 0f,
-            _slot2LiveData.value?.let { slots ->
-                slots[slots.size - 2].drawableRes
-            } ?: return 0f,
-            _slot3LiveData.value?.let { slots ->
-                slots[slots.size - 2].drawableRes
-            } ?: return 0f,
-            _slot4LiveData.value?.let { slots ->
-                slots[slots.size - 2].drawableRes
-            } ?: return 0f
-        )
-
-        if (combination.distinct().size == 1) {
-            return if (combination.contains(R.drawable.ic_temple)) {
-                15f
-            } else {
-                12f
-            }
-        }
-
-        if (combination.distinct().size == 2) {
-            return if (combination.subList(0, 3).distinct().size == 1 &&
-                combination.subList(4, 7).distinct().size == 1
-            ) {
-                10f
-            } else {
-                7f
-            }
-        }
-
-
-        if (combination.distinct().size == 3) {
-            return 6f
-        }
-
-        val twoGroups = combination.chunked(2)
-        if (twoGroups.size == 4 && twoGroups.all { it[0] == it[1] }) {
-            return 5f
-        }
-
-        val threeGroups = combination.chunked(3)
-        if (threeGroups.all {
-                if (it.size == 3) it[0] == it[1] && it[0] == it[2] else true
-        }
-                    ) {
-            return 3f
-        }
-
-        if (combination.distinct().size == 4) {
-            return 1.25f
-        }
-
-        return 0f
-    }
-
-    private suspend fun rollSlot(liveData: MutableLiveData<List<Slot>>) {
-        val currentList = liveData.value ?: return
-        var currentPosition =
-            currentList.reversed().indexOfFirst { it.relativePosition in 1 / VISIBLE_AMOUNT..2 / VISIBLE_AMOUNT }
-        while (currentList.last().relativePosition > 7 / (VISIBLE_AMOUNT * 2f) ) {
-            delay(FREQUENCY)
-            val positionChange = calculateSpeed(currentPosition) * FREQUENCY / 1000
-            currentList.forEach { it.relativePosition = it.relativePosition - positionChange }
-            liveData.value = currentList
-            currentPosition = currentList.reversed().indexOfFirst { slot ->
-                slot.relativePosition in 1 / VISIBLE_AMOUNT..2 / VISIBLE_AMOUNT
-            }
-        }
-        val positionAdjust = currentList.last().relativePosition - 7 / (VISIBLE_AMOUNT * 2f)
-        currentList.forEach { it.relativePosition = it.relativePosition - positionAdjust }
-        liveData.value = currentList
-    }
-
-    private fun calculateSpeed(currentPosition: Int): Float {
-        return currentPosition.toFloat().pow(1 / 2f)
-    }
-
-    private fun generateSlots() {
+    private fun generateGame() {
         val slotList1 = mutableListOf<Slot>().apply {
             addAll(
-                _slot1LiveData.value?.filter { it.relativePosition in 0f..1f } ?: emptyList(),
+                _slot1LD.value?.filter { it.pos in 0f..1f } ?: emptyList(),
             )
         }
         val slotList2 = mutableListOf<Slot>().apply {
             addAll(
-                _slot2LiveData.value?.filter { it.relativePosition in 0f..1f } ?: emptyList(),
+                _slot2LD.value?.filter { it.pos in 0f..1f } ?: emptyList(),
             )
         }
         val slotList3 = mutableListOf<Slot>().apply {
             addAll(
-                _slot3LiveData.value?.filter { it.relativePosition in 0f..1f } ?: emptyList(),
+                _slot3LD.value?.filter { it.pos in 0f..1f } ?: emptyList(),
             )
         }
         val slotList4 = mutableListOf<Slot>().apply {
             addAll(
-                _slot4LiveData.value?.filter { it.relativePosition in 0f..1f } ?: emptyList(),
+                _slot4LD.value?.filter { it.pos in 0f..1f } ?: emptyList(),
             )
         }
-        val constOffset = 1 / (VISIBLE_AMOUNT * 2)
+        val offset = 1 / (VISIBLE_AMOUNT * 2)
         for (i in slotList1.size..48) {
             slotList1.add(
                 Slot(
                     i,
-                    values.random(),
-                    constOffset + i * constOffset * 2,
+                    drawableIdList.random(),
+                    offset + i * offset * 2,
                 ),
             )
             slotList2.add(
                 Slot(
                     i,
-                    values.random(),
-                    constOffset + i * constOffset * 2,
+                    drawableIdList.random(),
+                    offset + i * offset * 2,
                 ),
             )
             slotList3.add(
                 Slot(
                     i,
-                    values.random(),
-                    constOffset + i * constOffset * 2,
+                    drawableIdList.random(),
+                    offset + i * offset * 2,
                 ),
             )
             slotList4.add(
                 Slot(
                     i,
-                    values.random(),
-                    constOffset + i * constOffset * 2,
+                    drawableIdList.random(),
+                    offset + i * offset * 2,
                 ),
             )
         }
         for (i in 0..1) {
             slotList1.add(
-                generateLastSlot(
-                    slotList1.last().id + 1,
-                    slotList1.last().relativePosition + 1 / VISIBLE_AMOUNT,
+                generate(
+                    slotList1.last().slotId + 1,
+                    slotList1.last().pos + 1 / VISIBLE_AMOUNT,
                 ),
             )
             slotList2.add(
-                generateLastSlot(
-                    slotList2.last().id + 1,
-                    slotList2.last().relativePosition + 1 / VISIBLE_AMOUNT,
+                generate(
+                    slotList2.last().slotId + 1,
+                    slotList2.last().pos + 1 / VISIBLE_AMOUNT,
                 ),
             )
             slotList3.add(
-                generateLastSlot(
-                    slotList3.last().id + 1,
-                    slotList3.last().relativePosition + 1 / VISIBLE_AMOUNT,
+                generate(
+                    slotList3.last().slotId + 1,
+                    slotList3.last().pos + 1 / VISIBLE_AMOUNT,
                 ),
             )
             slotList4.add(
-                generateLastSlot(
-                    slotList4.last().id + 1,
-                    slotList4.last().relativePosition + 1 / VISIBLE_AMOUNT,
+                generate(
+                    slotList4.last().slotId + 1,
+                    slotList4.last().pos + 1 / VISIBLE_AMOUNT,
                 ),
             )
         }
-        _slot1LiveData.value = slotList1
-        _slot2LiveData.value = slotList2
-        _slot3LiveData.value = slotList3
-        _slot4LiveData.value = slotList4
+        _slot1LD.value = slotList1
+        _slot2LD.value = slotList2
+        _slot3LD.value = slotList3
+        _slot4LD.value = slotList4
     }
 
-    private fun generateLastSlot(id: Int, relativePosition: Float): Slot {
-        val drawableRes = values.random()
+    private fun generate(id: Int, relativePosition: Float): Slot {
+        val drawableRes = drawableIdList.random()
         return Slot(
             id,
             drawableRes,
@@ -276,5 +182,98 @@ class FirstGameViewModel : ViewModel() {
 
     internal enum class GameState {
         Idle, Rolling
+    }
+
+    private fun getMult(): Float {
+        val result = listOf(
+            _slot1LD.value?.let { slots ->
+                slots[slots.size - 3].drawableId
+            } ?: return 0f,
+            _slot2LD.value?.let { slots ->
+                slots[slots.size - 3].drawableId
+            } ?: return 0f,
+            _slot3LD.value?.let { slots ->
+                slots[slots.size - 3].drawableId
+            } ?: return 0f,
+            _slot4LD.value?.let { slots ->
+                slots[slots.size - 3].drawableId
+            } ?: return 0f,
+            _slot1LD.value?.let { slots ->
+                slots[slots.size - 2].drawableId
+            } ?: return 0f,
+            _slot2LD.value?.let { slots ->
+                slots[slots.size - 2].drawableId
+            } ?: return 0f,
+            _slot3LD.value?.let { slots ->
+                slots[slots.size - 2].drawableId
+            } ?: return 0f,
+            _slot4LD.value?.let { slots ->
+                slots[slots.size - 2].drawableId
+            } ?: return 0f
+        )
+
+        if (result.distinct().size == 1) {
+            return if (result.contains(R.drawable.ic_temple)) {
+                15f
+            } else {
+                12f
+            }
+        }
+
+        if (result.distinct().size == 2) {
+            return if (result.subList(0, 3).distinct().size == 1 &&
+                result.subList(4, 7).distinct().size == 1
+            ) {
+                10f
+            } else {
+                7f
+            }
+        }
+
+
+        if (result.distinct().size == 3) {
+            return 6f
+        }
+
+        val twoGroups = result.chunked(2)
+        if (twoGroups.size == 4 && twoGroups.all { it[0] == it[1] }) {
+            return 5f
+        }
+
+        val threeGroups = result.chunked(3)
+        if (threeGroups.all {
+                if (it.size == 3) it[0] == it[1] && it[0] == it[2] else true
+        }
+                    ) {
+            return 3f
+        }
+
+        if (result.distinct().size == 4) {
+            return 1.25f
+        }
+
+        return 0f
+    }
+
+    private suspend fun spinSlot(ld: MutableLiveData<List<Slot>>) {
+        val list = ld.value ?: return
+        var pos =
+            list.reversed().indexOfFirst { it.pos in 1 / VISIBLE_AMOUNT..2 / VISIBLE_AMOUNT }
+        while (list.last().pos > 7 / (VISIBLE_AMOUNT * 2f) ) {
+            delay(RATE)
+            val posDif = getNewSpeed(pos) * RATE / 1000
+            list.forEach { it.pos = it.pos - posDif }
+            ld.value = list
+            pos = list.reversed().indexOfFirst { slot ->
+                slot.pos in 1 / VISIBLE_AMOUNT..2 / VISIBLE_AMOUNT
+            }
+        }
+        val posAdjust = list.last().pos - 7 / (VISIBLE_AMOUNT * 2f)
+        list.forEach { it.pos = it.pos - posAdjust }
+        ld.value = list
+    }
+
+    private fun getNewSpeed(pos: Int): Float {
+        return pos.toFloat().pow(1 / 2f)
     }
 }

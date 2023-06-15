@@ -8,32 +8,30 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 
-internal fun NavController.navigateSafe(
-    @IdRes resId: Int,
-    args: Bundle? = null,
-    navOptions: NavOptions? = null,
-    navExtras: Navigator.Extras? = null
+internal fun NavController.safeNavigate(
+    @IdRes id: Int,
+    bundle: Bundle? = null,
+    options: NavOptions? = null,
+    extras: Navigator.Extras? = null
 ): Boolean {
-    val action = currentDestination?.getAction(resId) ?: graph.getAction(resId)
+    val a = currentDestination?.getAction(id) ?: graph.getAction(id)
     return try {
-        if ((action != null && currentDestination?.id != action.destinationId) ||
-            (action == null && currentDestination?.id != resId)
+        if ((a != null && currentDestination?.id != a.destinationId) ||
+            (a == null && currentDestination?.id != id)
         ) {
-            navigate(resId, args, navOptions, navExtras)
+            navigate(id, bundle, options, extras)
             true
         } else {
             Log.e("Debug", "Action is null or destination screen is set already")
             false
         }
     } catch (ex: IllegalArgumentException) {
-        Log.e("Debug", ex.message.toString())
-
-        // Navigation action/destination cannot be found from the current destination Destination
+        Log.e("Debug", ex.message ?: "Navigation error")
         false
     }
 }
 
-internal fun NavController.navigateSafe(directions: NavDirections) {
-    navigateSafe(directions.actionId, directions.arguments)
+internal fun NavController.safeNavigate(directions: NavDirections) {
+    safeNavigate(directions.actionId, directions.arguments)
 }
 

@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.lucky.rush.ui.utils.Data
 import java.io.IOException
 
-internal inline fun Fragment.addOnBackPressedCallback(
+internal inline fun Fragment.doOnBackPressed(
     crossinline onBackPressed: () -> Unit,
 ) {
     requireActivity().onBackPressedDispatcher.addCallback(
@@ -44,19 +44,19 @@ fun Fragment.playWinSound() {
 }
 
 @Suppress("DEPRECATION")
-fun Fragment.vibr(duration: Long = 150L) {
+fun Fragment.vibrator(duration: Long = 150L) {
     try {
-        val v = ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
-        if (v?.hasVibrator() == true) {
+        val vibrator = ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
+        if (vibrator?.hasVibrator() == true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(
+                vibrator.vibrate(
                     VibrationEffect.createOneShot(
                         duration,
                         (255 * Data.getInstance(requireActivity()).vibratingVolume / 100f).toInt(),
                     ),
                 )
             } else {
-                v.vibrate((duration * Data.getInstance(requireActivity()).vibratingVolume / 100f).toLong())
+                vibrator.vibrate((duration * Data.getInstance(requireActivity()).vibratingVolume / 100f).toLong())
             }
         }
     } catch (e: Exception) {

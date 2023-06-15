@@ -6,13 +6,13 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.lucky.rush.R
 import com.lucky.rush.databinding.FragmentSettingsBinding
-import com.lucky.rush.ui.core.ViewBindingFragment
-import com.lucky.rush.ui.extensions.addOnBackPressedCallback
-import com.lucky.rush.ui.extensions.navigateSafe
-import com.lucky.rush.ui.extensions.setTextGradient
+import com.lucky.rush.ui.core.VbFragment
+import com.lucky.rush.ui.extensions.doOnBackPressed
+import com.lucky.rush.ui.extensions.safeNavigate
+import com.lucky.rush.ui.extensions.applyGradientToText
 import com.lucky.rush.ui.utils.Data
 
-class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
+class SettingsFragment : VbFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate,
 ) {
 
@@ -22,15 +22,13 @@ class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
+        doOnBackPressed {
+            findNavController().safeNavigate(
+                SettingsFragmentDirections.actionSettingsFragmentToMainFragment()
+            )
+        }
 
-            textViewMusic.setTextGradient(R.color.orange, R.color.yellow_2)
-            textViewVibration.setTextGradient(R.color.orange, R.color.yellow_2)
-            buttonResetScore.setTextGradient(R.color.orange, R.color.yellow_2)
-
-            progressBarMusic.progress = data.musicVolume
-            progressBarVibration.progress = data.vibratingVolume
-
+        with(vb) {
             progressBarMusic.setOnProgressListener {
                 data.musicVolume = it
             }
@@ -47,11 +45,13 @@ class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
                     Toast.LENGTH_SHORT,
                 ).show()
             }
-        }
-        addOnBackPressedCallback {
-            findNavController().navigateSafe(
-                SettingsFragmentDirections.actionSettingsFragmentToMainFragment()
-            )
+
+            textViewMusic.applyGradientToText(R.color.orange, R.color.yellow_2)
+            textViewVibration.applyGradientToText(R.color.orange, R.color.yellow_2)
+            buttonResetScore.applyGradientToText(R.color.orange, R.color.yellow_2)
+
+            progressBarMusic.progress = data.musicVolume
+            progressBarVibration.progress = data.vibratingVolume
         }
     }
 }

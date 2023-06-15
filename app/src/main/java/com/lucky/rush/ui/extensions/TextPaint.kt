@@ -6,9 +6,9 @@ import android.graphics.Shader.TileMode
 import android.text.TextPaint
 
 
-fun TextPaint.setTextGradient(x0: Float, y0: Float, x1: Float, y1: Float, colors: IntArray) {
+fun TextPaint.applyGradientToText(xStart: Float, yStart: Float, xEnd: Float, yEnd: Float, colorList: IntArray) {
     val textShader: Shader = LinearGradient(
-        x0, y0, x1, y1, colors, null, TileMode.CLAMP
+        xStart, yStart, xEnd, yEnd, colorList, null, TileMode.CLAMP
     )
     shader = textShader
 }

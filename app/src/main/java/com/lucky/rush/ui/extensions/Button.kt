@@ -4,12 +4,12 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 
-fun MaterialButton.setTextGradient(@ColorRes vararg colors: Int) {
-    paint.setTextGradient(
+fun MaterialButton.applyGradientToText(@ColorRes vararg colorList: Int) {
+    paint.applyGradientToText(
         0f,
         0f,
         width.toFloat(),
         textSize + paddingTop,
-        colors.map { ContextCompat.getColor(context, it) }.toIntArray()
+        colorList.map { ContextCompat.getColor(context, it) }.toIntArray()
     )
 }

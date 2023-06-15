@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.lucky.rush.R
 import com.lucky.rush.databinding.ViewScoresBinding
-import com.lucky.rush.ui.extensions.setTextGradient
+import com.lucky.rush.ui.extensions.applyGradientToText
 
 
 class FirstGameScoreView @JvmOverloads constructor(
@@ -20,8 +20,8 @@ class FirstGameScoreView @JvmOverloads constructor(
     }
 
     init {
-        vb.textViewTitle.setTextGradient(R.color.orange, R.color.yellow_2)
-        vb.textViewScore.setTextGradient(R.color.orange, R.color.yellow_2)
+        vb.textViewTitle.applyGradientToText(R.color.orange, R.color.yellow_2)
+        vb.textViewScore.applyGradientToText(R.color.orange, R.color.yellow_2)
     }
 
     var score: Long = 0
