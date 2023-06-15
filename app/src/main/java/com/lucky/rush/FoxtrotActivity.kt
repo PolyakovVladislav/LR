@@ -15,14 +15,20 @@ class FoxtrotActivity : AppCompatActivity() {
     private val navigationController: NavController
         get() = vb.fragmentContainer.getFragment<NavHostFragment>().navController
     private lateinit var vb: ActivityMainBinding
+    private val data = Data.getInstance(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb.root)
-        if (Data.getInstance(this).isUserSigned) {
+        if (data.isUserSigned) {
             navigationController.popBackStack()
             navigationController.safeNavigate(R.id.mainFragment)
+        } else {
+            data.total = 5000
+            data.wingGameFirst = 0
+            data.wingGameSecond = 0
+            data.wingGameThird = 0
         }
     }
 }
