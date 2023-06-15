@@ -6,13 +6,13 @@ import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
 
 
-fun View.alphaAnimator(duration: Long = 800): ViewPropertyAnimator {
-    alpha = if (alpha == 1.0f) 0f else alpha
+fun View.alpha(duration: Long = 800): ViewPropertyAnimator {
     isVisible = true
+    alpha = if (alpha == 1.0f) 0f else alpha
     return animate().alpha(1.0f).setDuration(duration)
 }
 
-fun View.revertAlphaAnimator(duration: Long = 800): ViewPropertyAnimator {
+fun View.revertAlpha(duration: Long = 800): ViewPropertyAnimator {
     return animate().alpha(0f).setDuration(duration)
 }
 

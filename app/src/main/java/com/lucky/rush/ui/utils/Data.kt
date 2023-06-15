@@ -7,32 +7,20 @@ import kotlin.reflect.KProperty
 
 class Data(context: Context) {
 
-    private val sharedPreferences = context.getSharedPreferences("Main", Context.MODE_PRIVATE)
+    companion object {
+        @Volatile
+        private var instance: Data? = null
 
-    var isUserSigned by PreferenceFieldDelegate.Boolean("isUserSigned")
+        fun getInstance(activity: Activity): Data =
+            instance ?: synchronized(this) {
+                instance ?: Data(activity).also { instance = it }
+            }
+    }
 
-    var musicVolume by PreferenceFieldDelegate.Int("musicVolume", 50)
-
-    var vibratingVolume by PreferenceFieldDelegate.Int("vibratingVolume", 50)
-
-    var total by PreferenceFieldDelegate.Long("total", 5000L)
-
-    var betGameFirst by PreferenceFieldDelegate.Long("betGameFirst", 500L)
-
-    var betGameSecond by PreferenceFieldDelegate.Long("betGameSecond", 500L)
-
-    var betGameThird by PreferenceFieldDelegate.Long("betGameThird", 500L)
-
-    var wingGameFirst by PreferenceFieldDelegate.Long("wingGameFirst", 0L)
-
-    var wingGameSecond by PreferenceFieldDelegate.Long("wingGameSecond", 0L)
-
-    var wingGameThird by PreferenceFieldDelegate.Long("wingGameThird", 0L)
-
-    private sealed class PreferenceFieldDelegate<T>(protected val key: kotlin.String) :
+    private sealed class DataFieldDelegate<T>(protected val key: kotlin.String) :
         ReadWriteProperty<Data, T> {
 
-        class Boolean(key: kotlin.String) : PreferenceFieldDelegate<kotlin.Boolean>(key) {
+        class Boolean(key: kotlin.String) : DataFieldDelegate<kotlin.Boolean>(key) {
 
             override fun getValue(thisRef: Data, property: KProperty<*>) =
                 thisRef.sharedPreferences.getBoolean(key, false)
@@ -47,7 +35,7 @@ class Data(context: Context) {
         class Int(
             key: kotlin.String,
             private val defValue: kotlin.Int
-        ) : PreferenceFieldDelegate<kotlin.Int>(key) {
+        ) : DataFieldDelegate<kotlin.Int>(key) {
 
             override fun getValue(thisRef: Data, property: KProperty<*>) =
                 thisRef.sharedPreferences.getInt(key, defValue)
@@ -59,7 +47,7 @@ class Data(context: Context) {
         class Long(
             key: kotlin.String,
             private val defaultValue: kotlin.Long,
-        ) : PreferenceFieldDelegate<kotlin.Long>(key) {
+        ) : DataFieldDelegate<kotlin.Long>(key) {
 
             override fun getValue(thisRef: Data, property: KProperty<*>) =
                 thisRef.sharedPreferences.getLong(key, defaultValue)
@@ -72,13 +60,25 @@ class Data(context: Context) {
         }
     }
 
-    companion object {
-        @Volatile
-        private var instance: Data? = null
+    private val sharedPreferences = context.getSharedPreferences("Main", Context.MODE_PRIVATE)
 
-        fun getInstance(activity: Activity): Data =
-            instance ?: synchronized(this) {
-                instance ?: Data(activity).also { instance = it }
-            }
-    }
+    var isUserSigned by DataFieldDelegate.Boolean("isUserSigned")
+
+    var musicVolume by DataFieldDelegate.Int("musicVolume", 50)
+
+    var vibratingVolume by DataFieldDelegate.Int("vibratingVolume", 50)
+
+    var total by DataFieldDelegate.Long("total", 5000L)
+
+    var betGameFirst by DataFieldDelegate.Long("betGameFirst", 500L)
+
+    var betGameSecond by DataFieldDelegate.Long("betGameSecond", 500L)
+
+    var betGameThird by DataFieldDelegate.Long("betGameThird", 500L)
+
+    var wingGameFirst by DataFieldDelegate.Long("wingGameFirst", 0L)
+
+    var wingGameSecond by DataFieldDelegate.Long("wingGameSecond", 0L)
+
+    var wingGameThird by DataFieldDelegate.Long("wingGameThird", 0L)
 }

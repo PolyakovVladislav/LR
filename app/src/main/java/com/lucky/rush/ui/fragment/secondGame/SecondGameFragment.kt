@@ -6,17 +6,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.lucky.rush.R
 import com.lucky.rush.databinding.FragmentSecondGameBinding
-import com.lucky.rush.ui.core.ViewBindingFragment
-import com.lucky.rush.ui.extensions.addOnBackPressedCallback
-import com.lucky.rush.ui.extensions.navigateSafe
+import com.lucky.rush.ui.core.VbFragment
+import com.lucky.rush.ui.extensions.doOnBackPressed
+import com.lucky.rush.ui.extensions.safeNavigate
 import com.lucky.rush.ui.extensions.playWinSound
 import com.lucky.rush.ui.extensions.setOrientationFull
 import com.lucky.rush.ui.extensions.setOrientationPortrait
-import com.lucky.rush.ui.extensions.setTextGradient
-import com.lucky.rush.ui.extensions.vibr
+import com.lucky.rush.ui.extensions.applyGradientToText
+import com.lucky.rush.ui.extensions.vibrator
 import com.lucky.rush.ui.utils.Data
 
-class SecondGameFragment : ViewBindingFragment<FragmentSecondGameBinding>(
+class SecondGameFragment : VbFragment<FragmentSecondGameBinding>(
     FragmentSecondGameBinding::inflate,
 ) {
 
@@ -28,52 +28,30 @@ class SecondGameFragment : ViewBindingFragment<FragmentSecondGameBinding>(
 
         setOrientationFull()
 
-        addOnBackPressedCallback {
-            findNavController().navigateSafe(
+        doOnBackPressed {
+            findNavController().safeNavigate(
                 SecondGameFragmentDirections.actionSecondGameFragmentToGamesFragment(),
             )
         }
 
-        with(binding) {
-            textViewBet.setTextGradient(R.color.orange, R.color.yellow_2)
-            buttonPlay.setTextGradient(R.color.orange, R.color.yellow_2)
-            textViewTotal.setTextGradient(R.color.orange, R.color.yellow_2)
-            textViewWin.setTextGradient(R.color.orange, R.color.yellow_2)
-            textViewTotalTitle.setTextGradient(R.color.orange, R.color.yellow_2)
-            textViewWinTitle.setTextGradient(R.color.orange, R.color.yellow_2)
+        with(vb) {
+            textViewBet.applyGradientToText(R.color.orange, R.color.yellow_2)
+            buttonPlay.applyGradientToText(R.color.orange, R.color.yellow_2)
+            textViewTotal.applyGradientToText(R.color.orange, R.color.yellow_2)
+            textViewWin.applyGradientToText(R.color.orange, R.color.yellow_2)
+            textViewTotalTitle.applyGradientToText(R.color.orange, R.color.yellow_2)
+            textViewWinTitle.applyGradientToText(R.color.orange, R.color.yellow_2)
 
             textViewTotal.text = data.total.toString()
             textViewWin.text = data.wingGameSecond.toString()
 
             textViewBet.text = data.betGameSecond.toString()
 
-            buttonPlay.setOnClickListener {
-                val bet = textViewBet.text.toString().toLong()
-                if (bet == 0L) return@setOnClickListener
-                vm.play(
-                    bet,
-                    data,
-                )
-            }
-
-            imageViewDecrease.setOnClickListener {
-                var bet = textViewBet.text.toString().toLong() - 100L
-                if (bet < 0) bet = 0
-                data.betGameSecond = bet
-                textViewBet.text = bet.toString()
-            }
-
-            imageViewIncrease.setOnClickListener {
-                var bet = textViewBet.text.toString().toLong() + 100L
-                if (bet > data.total) bet = data.total
-                data.betGameSecond = bet
-                textViewBet.text = bet.toString()
-            }
 
             vm.win.observe(viewLifecycleOwner) { win ->
                 if (data.wingGameSecond != win) {
                     playWinSound()
-                    vibr()
+                    vibrator()
                 }
                 data.wingGameSecond = win
                 textViewWin.text = win.toString()
@@ -86,6 +64,29 @@ class SecondGameFragment : ViewBindingFragment<FragmentSecondGameBinding>(
                 }
                 textViewTotal.text = total.toString()
             }
+
+            imageViewIncrease.setOnClickListener {
+                var bet = textViewBet.text.toString().toLong() + 100L
+                if (bet > data.total) bet = data.total
+                data.betGameSecond = bet
+                textViewBet.text = bet.toString()
+            }
+
+            imageViewDecrease.setOnClickListener {
+                var bet = textViewBet.text.toString().toLong() - 100L
+                if (bet < 0) bet = 0
+                data.betGameSecond = bet
+                textViewBet.text = bet.toString()
+            }
+
+            buttonPlay.setOnClickListener {
+                val bet = textViewBet.text.toString().toLong()
+                if (bet == 0L) return@setOnClickListener
+                vm.roll(
+                    bet,
+                    data,
+                )
+            }
         }
     }
 
@@ -96,14 +97,14 @@ class SecondGameFragment : ViewBindingFragment<FragmentSecondGameBinding>(
 
     override fun onResume() {
         super.onResume()
-        vm.slot1LiveData.observe(viewLifecycleOwner) {
-            binding.slotView1.update(it, SecondGameViewModel.VISIBLE_AMOUNT.toInt())
+        vm.slot1LD.observe(viewLifecycleOwner) {
+            vb.slotView1.submitChange(it, SecondGameViewModel.VISIBLE_AMOUNT.toInt())
         }
-        vm.slot2LiveData.observe(viewLifecycleOwner) {
-            binding.slotView2.update(it, SecondGameViewModel.VISIBLE_AMOUNT.toInt())
+        vm.slot2LD.observe(viewLifecycleOwner) {
+            vb.slotView2.submitChange(it, SecondGameViewModel.VISIBLE_AMOUNT.toInt())
         }
-        vm.slot3LiveData.observe(viewLifecycleOwner) {
-            binding.slotView3.update(it, SecondGameViewModel.VISIBLE_AMOUNT.toInt())
+        vm.slot3LD.observe(viewLifecycleOwner) {
+            vb.slotView3.submitChange(it, SecondGameViewModel.VISIBLE_AMOUNT.toInt())
         }
     }
 }

@@ -13,17 +13,25 @@ import androidx.fragment.app.Fragment
 import com.lucky.rush.ui.utils.Data
 import java.io.IOException
 
-internal inline fun Fragment.addOnBackPressedCallback(
-    crossinline onBackPressed: () -> Unit,
-) {
-    requireActivity().onBackPressedDispatcher.addCallback(
-        this,
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onBackPressed()
+@Suppress("DEPRECATION")
+fun Fragment.vibrator(duration: Long = 150L) {
+    try {
+        val vibrator = ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
+        if (vibrator?.hasVibrator() == true) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(
+                    VibrationEffect.createOneShot(
+                        duration,
+                        (255 * Data.getInstance(requireActivity()).vibratingVolume / 100f).toInt(),
+                    ),
+                )
+            } else {
+                vibrator.vibrate((duration * Data.getInstance(requireActivity()).vibratingVolume / 100f).toLong())
             }
-        },
-    )
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }
 
 fun Fragment.playWinSound() {
@@ -43,25 +51,17 @@ fun Fragment.playWinSound() {
     }
 }
 
-@Suppress("DEPRECATION")
-fun Fragment.vibr(duration: Long = 150L) {
-    try {
-        val v = ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
-        if (v?.hasVibrator() == true) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(
-                    VibrationEffect.createOneShot(
-                        duration,
-                        (255 * Data.getInstance(requireActivity()).vibratingVolume / 100f).toInt(),
-                    ),
-                )
-            } else {
-                v.vibrate((duration * Data.getInstance(requireActivity()).vibratingVolume / 100f).toLong())
+internal inline fun Fragment.doOnBackPressed(
+    crossinline onBackPressed: () -> Unit,
+) {
+    requireActivity().onBackPressedDispatcher.addCallback(
+        this,
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
             }
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
+        },
+    )
 }
 
 @SuppressLint("SourceLockedOrientationActivity")

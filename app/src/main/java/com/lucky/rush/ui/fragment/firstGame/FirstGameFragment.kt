@@ -6,17 +6,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.lucky.rush.R
 import com.lucky.rush.databinding.FragmentFirstGameBinding
-import com.lucky.rush.ui.core.ViewBindingFragment
-import com.lucky.rush.ui.extensions.addOnBackPressedCallback
-import com.lucky.rush.ui.extensions.navigateSafe
+import com.lucky.rush.ui.core.VbFragment
+import com.lucky.rush.ui.extensions.doOnBackPressed
+import com.lucky.rush.ui.extensions.safeNavigate
 import com.lucky.rush.ui.extensions.playWinSound
 import com.lucky.rush.ui.extensions.setOrientationFull
 import com.lucky.rush.ui.extensions.setOrientationPortrait
-import com.lucky.rush.ui.extensions.setTextGradient
-import com.lucky.rush.ui.extensions.vibr
+import com.lucky.rush.ui.extensions.applyGradientToText
+import com.lucky.rush.ui.extensions.vibrator
 import com.lucky.rush.ui.utils.Data
 
-class FirstGameFragment : ViewBindingFragment<FragmentFirstGameBinding>(
+class FirstGameFragment : VbFragment<FragmentFirstGameBinding>(
     FragmentFirstGameBinding::inflate,
 ) {
 
@@ -28,15 +28,15 @@ class FirstGameFragment : ViewBindingFragment<FragmentFirstGameBinding>(
 
         setOrientationFull()
 
-        addOnBackPressedCallback {
-            findNavController().navigateSafe(
+        doOnBackPressed {
+            findNavController().safeNavigate(
                 FirstGameFragmentDirections.actionFirstGameFragmentToGamesFragment(),
             )
         }
 
-        with(binding) {
-            textViewBet.setTextGradient(R.color.orange, R.color.yellow_2)
-            buttonPlay.setTextGradient(R.color.orange, R.color.yellow_2)
+        with(vb) {
+            textViewBet.applyGradientToText(R.color.orange, R.color.yellow_2)
+            buttonPlay.applyGradientToText(R.color.orange, R.color.yellow_2)
 
             scoreViewTotal.title = getString(R.string.total)
             scoreViewWin.title = getString(R.string.win)
@@ -45,33 +45,10 @@ class FirstGameFragment : ViewBindingFragment<FragmentFirstGameBinding>(
             scoreViewWin.score = data.wingGameFirst
             textViewBet.text = data.betGameFirst.toString()
 
-            buttonPlay.setOnClickListener {
-                val bet = textViewBet.text.toString().toLong()
-                if (bet == 0L) return@setOnClickListener
-                vm.play(
-                    bet,
-                    data,
-                )
-            }
-
-            imageViewDecrease.setOnClickListener {
-                var bet = textViewBet.text.toString().toLong() - 100L
-                if (bet < 0) bet = 0
-                data.betGameFirst = bet
-                textViewBet.text = bet.toString()
-            }
-
-            imageViewIncrease.setOnClickListener {
-                var bet = textViewBet.text.toString().toLong() + 100L
-                if (bet > data.total) bet = data.total
-                data.betGameFirst = bet
-                textViewBet.text = bet.toString()
-            }
-
             vm.win.observe(viewLifecycleOwner) { win ->
                 if (data.wingGameFirst != win) {
                     playWinSound()
-                    vibr()
+                    vibrator()
                 }
                 data.wingGameFirst = win
                 scoreViewWin.score = win
@@ -84,6 +61,29 @@ class FirstGameFragment : ViewBindingFragment<FragmentFirstGameBinding>(
                 }
                 scoreViewTotal.score = data.total
             }
+
+            imageViewIncrease.setOnClickListener {
+                var bet = textViewBet.text.toString().toLong() + 100L
+                if (bet > data.total) bet = data.total
+                data.betGameFirst = bet
+                textViewBet.text = bet.toString()
+            }
+
+            imageViewDecrease.setOnClickListener {
+                var bet = textViewBet.text.toString().toLong() - 100L
+                if (bet < 0) bet = 0
+                data.betGameFirst = bet
+                textViewBet.text = bet.toString()
+            }
+
+            buttonPlay.setOnClickListener {
+                val bet = textViewBet.text.toString().toLong()
+                if (bet == 0L) return@setOnClickListener
+                vm.roll(
+                    bet,
+                    data,
+                )
+            }
         }
     }
 
@@ -94,17 +94,17 @@ class FirstGameFragment : ViewBindingFragment<FragmentFirstGameBinding>(
 
     override fun onResume() {
         super.onResume()
-        vm.slot1LiveData.observe(viewLifecycleOwner) {
-            binding.slotView1.update(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
+        vm.slot1LD.observe(viewLifecycleOwner) {
+            vb.slotView1.submitChange(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
         }
-        vm.slot2LiveData.observe(viewLifecycleOwner) {
-            binding.slotView2.update(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
+        vm.slot2LD.observe(viewLifecycleOwner) {
+            vb.slotView2.submitChange(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
         }
-        vm.slot3LiveData.observe(viewLifecycleOwner) {
-            binding.slotView3.update(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
+        vm.slot3LD.observe(viewLifecycleOwner) {
+            vb.slotView3.submitChange(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
         }
-        vm.slot4LiveData.observe(viewLifecycleOwner) {
-            binding.slotView4.update(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
+        vm.slot4LD.observe(viewLifecycleOwner) {
+            vb.slotView4.submitChange(it, FirstGameViewModel.VISIBLE_AMOUNT.toInt())
         }
     }
 }

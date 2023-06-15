@@ -11,9 +11,9 @@
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_out_left"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popExitAnim="@anim/anim_slide_out_left"
             app:popUpTo="@id/signInFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -25,13 +25,13 @@
         <action
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left" />
         <action
             android:id="@+id/action_mainFragment_to_gamesFragment"
             app:destination="@id/gamesFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -41,9 +41,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popExitAnim="@anim/anim_slide_out_right"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -55,26 +55,26 @@
         <action
             android:id="@+id/action_gamesFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popExitAnim="@anim/anim_slide_out_right"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_gamesFragment_to_firstGameFragment"
             app:destination="@id/firstGameFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left" />
         <action
             android:id="@+id/action_gamesFragment_to_secondGameFragment"
             app:destination="@id/secondGameFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left" />
         <action
             android:id="@+id/action_gamesFragment_to_thirdGameFragment"
             app:destination="@id/thirdGameFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/firstGameFragment"
@@ -84,9 +84,9 @@
         <action
             android:id="@+id/action_firstGameFragment_to_gamesFragment"
             app:destination="@id/gamesFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popExitAnim="@anim/anim_slide_out_right"
             app:popUpTo="@id/gamesFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -98,9 +98,9 @@
         <action
             android:id="@+id/action_secondGameFragment_to_gamesFragment"
             app:destination="@id/gamesFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popExitAnim="@anim/anim_slide_out_right"
             app:popUpTo="@id/gamesFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -112,9 +112,9 @@
         <action
             android:id="@+id/action_thirdGameFragment_to_gamesFragment"
             app:destination="@id/gamesFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popExitAnim="@anim/anim_slide_out_right"
             app:popUpTo="@id/gamesFragment"
             app:popUpToInclusive="true" />
     </fragment>

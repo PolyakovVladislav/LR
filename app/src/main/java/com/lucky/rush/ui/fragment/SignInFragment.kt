@@ -7,19 +7,18 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.lucky.rush.R
 import com.lucky.rush.databinding.FragmentSignInBinding
-import com.lucky.rush.ui.core.ViewBindingFragment
-import com.lucky.rush.ui.extensions.navigateSafe
-import com.lucky.rush.ui.extensions.setTextGradient
+import com.lucky.rush.ui.core.VbFragment
+import com.lucky.rush.ui.extensions.safeNavigate
+import com.lucky.rush.ui.extensions.applyGradientToText
 import com.lucky.rush.ui.utils.Data
 
-class SignInFragment : ViewBindingFragment<FragmentSignInBinding>(
+class SignInFragment : VbFragment<FragmentSignInBinding>(
     FragmentSignInBinding::inflate,
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            buttonPlay.setTextGradient(R.color.orange, R.color.yellow_2)
+        with(vb) {
 
             cardViewCheck.setOnClickListener {
                 imageViewCheck.isVisible = imageViewCheck.isVisible.not()
@@ -27,10 +26,10 @@ class SignInFragment : ViewBindingFragment<FragmentSignInBinding>(
 
             buttonPlay.setOnClickListener {
                 if (imageViewCheck.isVisible) {
-                    navigateMain()
+                    goMain()
                 } else if (editText.text?.matches(Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")) == true) {
                     Data.getInstance(requireActivity()).isUserSigned = true
-                    navigateMain()
+                    goMain()
                 } else if (editText.text?.matches(Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")) == false) {
                     Toast.makeText(
                         requireContext(),
@@ -45,11 +44,12 @@ class SignInFragment : ViewBindingFragment<FragmentSignInBinding>(
                     ).show()
                 }
             }
+            buttonPlay.applyGradientToText(R.color.orange, R.color.yellow_2)
         }
     }
 
-    private fun navigateMain() {
-        findNavController().navigateSafe(
+    private fun goMain() {
+        findNavController().safeNavigate(
             SignInFragmentDirections.actionLoginFragmentToMainFragment()
         )
     }
